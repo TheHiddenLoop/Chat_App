@@ -1,12 +1,28 @@
-import { useState, useEffect } from "react";
-import { UserPlus, Users, Check, X, Search } from "lucide-react";
-import { useFriendStore } from "../store/useFriendStore";
-import { debounce } from "lodash";
+
+import { useState, useEffect } from "react"
+import { UserPlus, Users, Check, X, Search } from "lucide-react"
+import { useFriendStore } from "../store/useFriendStore"
+import { debounce } from "lodash"
+
+
+const maskEmail = (email) => {
+  if (!email) return "No email available"
+
+  const [localPart, domain] = email.split("@")
+
+  if (!domain) return email 
+
+  
+  const visiblePart = localPart.slice(-2)
+  const maskedPart = "*".repeat(localPart.length - 2)
+
+  return `${maskedPart}${visiblePart}@${domain}`
+}
 
 const FriendPage = () => {
-  const [activeTab, setActiveTab] = useState("sendRequest");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredResults, setFilteredResults] = useState([]);
+  const [activeTab, setActiveTab] = useState("sendRequest")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filteredResults, setFilteredResults] = useState([])
 
   const {
     searchResults = [],
@@ -16,47 +32,41 @@ const FriendPage = () => {
     sendRequest,
     acceptRequest,
     rejectRequest,
-  } = useFriendStore();
+  } = useFriendStore()
 
   useEffect(() => {
     if (activeTab === "requests") {
-      fetchRequests();
+      fetchRequests()
     } else {
-      setSearchTerm("");
-      setFilteredResults([]);
+      setSearchTerm("")
+      setFilteredResults([])
     }
-  }, [activeTab, fetchRequests]);
-
+  }, [activeTab, fetchRequests])
 
   const debouncedSearch = debounce((query) => {
     if (query.trim() !== "") {
-      searchUsers(query);
+      searchUsers(query)
     }
-  }, 500);
+  }, 500)
 
   const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
+    const value = e.target.value
+    setSearchTerm(value)
 
     if (value.trim() === "") {
-      setFilteredResults([]);
+      setFilteredResults([])
     } else {
-      debouncedSearch(value);
+      debouncedSearch(value)
     }
-  };
+  }
 
-  
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredResults([]);
+      setFilteredResults([])
     } else {
-      setFilteredResults(
-        searchResults.filter((user) =>
-          user.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
+      setFilteredResults(searchResults.filter((user) => user.fullName.toLowerCase().includes(searchTerm.toLowerCase())))
     }
-  }, [searchResults, searchTerm]);
+  }, [searchResults, searchTerm])
 
   return (
     <div className="h-screen bg-base-200 flex items-center justify-center pt-20 px-1">
@@ -65,9 +75,7 @@ const FriendPage = () => {
         <div className="flex space-x-4 border-b pb-2 mb-4">
           <button
             className={`p-2 rounded-md transition flex items-center space-x-2 ${
-              activeTab === "sendRequest"
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-accent"
+              activeTab === "sendRequest" ? "bg-primary text-primary-foreground" : "hover:bg-accent"
             }`}
             onClick={() => setActiveTab("sendRequest")}
           >
@@ -76,9 +84,7 @@ const FriendPage = () => {
           </button>
           <button
             className={`p-2 rounded-md transition flex items-center space-x-2 ${
-              activeTab === "requests"
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-accent"
+              activeTab === "requests" ? "bg-primary text-primary-foreground" : "hover:bg-accent"
             }`}
             onClick={() => setActiveTab("requests")}
           >
@@ -121,7 +127,7 @@ const FriendPage = () => {
                     />
                     <div>
                       <p className="font-semibold text-lg">{user.fullName || "Unknown User"}</p>
-                      <p className="text-gray-500">{user.email}</p>
+                      <p className="text-gray-500">{maskEmail(user.email)}</p>
                     </div>
                   </div>
                   <button
@@ -140,7 +146,7 @@ const FriendPage = () => {
         {activeTab === "requests" && friendRequests.length > 0 && (
           <ul className="p-2 space-y-2">
             {friendRequests.map((request) => {
-              const sender = request.sender || {};
+              const sender = request.sender || {}
               return (
                 <li key={request._id} className="p-4 flex flex-col rounded-lg border border-gray-200 shadow-sm">
                   <div className="flex items-center space-x-3 mb-2">
@@ -151,27 +157,27 @@ const FriendPage = () => {
                     />
                     <div>
                       <p className="font-semibold text-lg">{sender.fullName || "Unknown User"}</p>
-                      <p className="text-gray-500">{sender.email || "No email available"}</p>
+                      <p className="text-gray-500">{maskEmail(sender.email)}</p>
                     </div>
                   </div>
                   <div className="flex space-x-2">
                     <button
                       onClick={() => acceptRequest(request._id)}
                       className="w-full p-2 flex items-center justify-center space-x-2 bg-primary text-white rounded-md hover:bg-primary/90"
-                  >
+                    >
                       <Check className="w-5 h-5" />
                       <span>Accept</span>
                     </button>
                     <button
                       onClick={() => rejectRequest(request._id)}
                       className="w-full p-2 flex items-center justify-center space-x-2 bg-primary text-white rounded-md hover:bg-primary/90"
-                  >
+                    >
                       <X className="w-5 h-5" />
                       <span>Reject</span>
                     </button>
                   </div>
                 </li>
-              );
+              )
             })}
           </ul>
         )}
@@ -182,7 +188,8 @@ const FriendPage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FriendPage;
+export default FriendPage
+

@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bio: {
+      type: String,
+      default: "",
+    },
     password: {
       type: String,
       required: true,
@@ -22,8 +26,8 @@ const userSchema = new mongoose.Schema(
     },
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     isVerified: { type: Boolean, default: false },
-  verificationToken: { type: String, default: null },
-  verificationTokenExpiresAt: { type: Date, default: null },
+    verificationToken: { type: String, default: null },
+    verificationTokenExpiresAt: { type: Date, default: null },
     resetPasswordToken: { type: String, default: null },
     resetPasswordExpires: { type: Date, default: null },
   },
