@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    bio: {
+    about: {
       type: String,
       default: "",
     },

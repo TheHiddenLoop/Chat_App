@@ -153,17 +153,35 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
+    const { profilePic, fullName, about } = req.body;
     const userId = req.user._id;
 
-    if (!profilePic) {
-      return res.status(400).json({ message: "Profile pic is required" });
+    // Create an update object with only the fields that are provided
+    const updateData = {};
+    
+    // Handle profile pic upload if provided
+    if (profilePic) {
+      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      updateData.profilePic = uploadResponse.secure_url;
+    }
+    
+    // Add name and about if provided
+    if (fullName !== undefined) {
+      updateData.fullName = fullName;
+    }
+    
+    if (about !== undefined) {
+      updateData.about = about;
+    }
+    
+    // Only proceed if there's something to update
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ message: "No update data provided" });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profilePic: uploadResponse.secure_url },
+      updateData,
       { new: true }
     );
 
