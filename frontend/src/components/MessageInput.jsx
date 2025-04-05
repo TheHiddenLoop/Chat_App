@@ -138,56 +138,48 @@ const MessageInput = () => {
       )}
 
       {/* Input Field & Buttons */}
-      <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2">
-  <div className="flex-1 flex gap-1 sm:gap-2 items-center">
-    <input
-      type="text"
-      className="w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
-      placeholder={`Message ${selectedUser?.fullName || ""}...`}
-      value={text}
-      onChange={(e) => setText(e.target.value)}
-      ref={textInputRef}
-      inputMode="text"
-      autoComplete="off"
-      autoCorrect="on"
-      autoCapitalize="sentences"
-    />
-    <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageChange} />
+      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+        <div className="flex-1 flex gap-1 sm:gap-2 items-center">
+          <input
+            type="text"
+            className="w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+            placeholder={`Message ${selectedUser?.fullName || ""}...`}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            ref={textInputRef}
+          />
+          <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleImageChange} />
 
-    {/* Emoji Picker Button */}
-    <button
-      type="button"
-      className="btn btn-circle btn-sm text-base-content/70 hover:bg-base-200 transition-colors"
-      onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-    >
-      <Smile size={18} />
-    </button>
+          {/* Emoji Picker Button */}
+          <button
+            type="button"
+            className="btn btn-circle btn-sm text-base-content/70 hover:bg-base-200 transition-colors"
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          >
+            <Smile size={18} />
+          </button>
 
-    {/* Image Upload Button */}
-    <button
-      type="button"
-      className={`btn btn-circle btn-sm ${
-        imagePreview ? "text-primary" : "text-base-content/70"
-      } hover:bg-base-200 transition-colors`}
-      onClick={() => fileInputRef.current?.click()}
-    >
-      <Paperclip size={18} className={imagePreview ? "rotate-45" : ""} />
-    </button>
-  </div>
+          {/* Image Upload Button */}
+          <button
+            type="button"
+            className={`btn btn-circle btn-sm ${
+              imagePreview ? "text-primary" : "text-base-content/70"
+            } hover:bg-base-200 transition-colors`}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Paperclip size={18} className={imagePreview ? "rotate-45" : ""} />
+          </button>
+        </div>
 
-  {/* Send Button */}
-  <button
-    type="button" // ✅ changed from submit to button
-    className={`btn btn-circle btn-sm sm:btn-md ${
-      (!text.trim() && !imagePreview) || isSending ? "btn-disabled" : "btn-primary text-primary-content"
-    }`}
-    disabled={(!text.trim() && !imagePreview) || isSending}
-    onClick={handleSendMessage} // ✅ manually calling your function
-  >
-    <Send size={16} className="sm:size-18" />
-  </button>
-</form>
-
+        {/* Send Button */}
+        <button
+          type="submit"
+          className={`btn btn-circle btn-sm sm:btn-md ${(!text.trim() && !imagePreview) || isSending ? "btn-disabled" : "btn-primary text-primary-content"}`}
+          disabled={(!text.trim() && !imagePreview) || isSending}
+        >
+          <Send size={16} className="sm:size-18" />
+        </button>
+      </form>
     </div>
   )
 }
