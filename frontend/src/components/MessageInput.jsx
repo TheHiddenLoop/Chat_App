@@ -66,17 +66,19 @@ const MessageInput = () => {
         text: messageToSend,
         image: imageToSend,
       })
-
-      // Focus back on input after sending
-      if (textInputRef.current) {
-        textInputRef.current.focus()
-      }
+    
+      // Delay focus to keep mobile keyboard open
+      setTimeout(() => {
+        if (textInputRef.current) {
+          textInputRef.current.focus()
+        }
+      }, 100)
     } catch (error) {
       console.error("Failed to send message:", error)
       toast.error("Failed to send message.")
     } finally {
       setIsSending(false)
-    }
+    }    
   }
 
   // Handle Emoji Selection

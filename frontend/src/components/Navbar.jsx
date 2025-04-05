@@ -17,15 +17,16 @@ const Navbar = () => {
         setMobileMenuOpen(false)
       }
     }
-
+  
     if (mobileMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside)
     } else {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-
+  
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [mobileMenuOpen])
+  
 
   return (
     <header
@@ -43,44 +44,41 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            <Link to={"/settings"} className="btn btn-sm gap-2 transition-colors">
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-            </Link>
+          {/* Desktop Navigation (only show if user is logged in) */}
+          {authUser && (
+            <div className="hidden md:flex items-center gap-2">
+              <Link to={"/settings"} className="btn btn-sm gap-2 transition-colors">
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </Link>
+              <Link to={"/friends"} className="btn btn-sm gap-2">
+                <Users className="size-5" />
+                <span>Friends</span>
+              </Link>
+              <Link to={"/profile"} className="btn btn-sm gap-2">
+                <User className="size-5" />
+                <span>Profile</span>
+              </Link>
+              <button className="btn btn-sm gap-2" onClick={logout}>
+                <LogOut className="size-5" />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
 
-            {authUser && (
-              <>
-                <Link to={"/friends"} className="btn btn-sm gap-2">
-                  <Users className="size-5" />
-                  <span>Friends</span>
-                </Link>
-
-                <Link to={"/profile"} className="btn btn-sm gap-2">
-                  <User className="size-5" />
-                  <span>Profile</span>
-                </Link>
-
-                <button className="btn btn-sm gap-2" onClick={logout}>
-                  <LogOut className="size-5" />
-                  <span>Logout</span>
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="btn btn-sm btn-circle">
-              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
+          {/* Mobile Menu Button (only show if user is logged in) */}
+          {authUser && (
+            <div className="md:hidden">
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="btn btn-sm btn-circle">
+                {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      {mobileMenuOpen && (
+      {/* Mobile Navigation Menu (only show if user is logged in) */}
+      {authUser && mobileMenuOpen && (
         <div
           ref={menuRef}
           className="md:hidden absolute top-16 right-0 left-0 bg-base-100 border-b border-base-300 shadow-lg z-50"
@@ -94,39 +92,32 @@ const Navbar = () => {
               <Settings className="w-5 h-5" />
               <span>Settings</span>
             </Link>
-
-            {authUser && (
-              <>
-                <Link
-                  to={"/friends"}
-                  className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Users className="size-5" />
-                  <span>Friends</span>
-                </Link>
-
-                <Link
-                  to={"/profile"}
-                  className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <User className="size-5" />
-                  <span>Profile</span>
-                </Link>
-
-                <button
-                  className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md text-left w-full"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    logout()
-                  }}
-                >
-                  <LogOut className="size-5" />
-                  <span>Logout</span>
-                </button>
-              </>
-            )}
+            <Link
+              to={"/friends"}
+              className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Users className="size-5" />
+              <span>Friends</span>
+            </Link>
+            <Link
+              to={"/profile"}
+              className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <User className="size-5" />
+              <span>Profile</span>
+            </Link>
+            <button
+              className="flex items-center gap-2 p-3 hover:bg-base-200 rounded-md text-left w-full"
+              onClick={() => {
+                setMobileMenuOpen(false)
+                logout()
+              }}
+            >
+              <LogOut className="size-5" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       )}
@@ -135,4 +126,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-

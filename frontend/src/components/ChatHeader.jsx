@@ -1,4 +1,3 @@
-"use client"
 
 import { X, MoreVertical, Trash, Info } from "lucide-react"
 import { useState, useRef, useEffect, useCallback } from "react"
