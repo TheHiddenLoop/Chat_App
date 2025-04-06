@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useChatStore } from "../store/useChatStore"
-import { useEffect, useRef, useState } from "react"
-import ChatHeader from "./ChatHeader"
-import MessageInput from "./MessageInput"
-import MessageSkeleton from "./skeletons/MessageSkeleton"
-import { useAuthStore } from "../store/useAuthStore"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
-import isToday from "dayjs/plugin/isToday"
-import isYesterday from "dayjs/plugin/isYesterday"
-import { X, Trash } from "lucide-react"
+import { useChatStore } from "../store/useChatStore";
+import { useEffect, useRef, useState } from "react";
+import ChatHeader from "./ChatHeader";
+import MessageInput from "./MessageInput";
+import MessageSkeleton from "./skeletons/MessageSkeleton";
+import { useAuthStore } from "../store/useAuthStore";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import isToday from "dayjs/plugin/isToday";
+import isYesterday from "dayjs/plugin/isYesterday";
+import { X, Trash } from "lucide-react";
 
-dayjs.extend(relativeTime)
-dayjs.extend(isToday)
-dayjs.extend(isYesterday)
+dayjs.extend(relativeTime);
+dayjs.extend(isToday);
+dayjs.extend(isYesterday);
 
 const ChatContainer = () => {
   const {
@@ -25,42 +25,47 @@ const ChatContainer = () => {
     subscribeToMessages,
     unsubscribeFromMessages,
     deleteMessage,
-  } = useChatStore()
-  const { authUser } = useAuthStore()
-  const messageEndRef = useRef(null)
-  const [selectedImage, setSelectedImage] = useState(null)
-  const chatContainerRef = useRef(null)
+  } = useChatStore();
+  const { authUser } = useAuthStore();
+  const messageEndRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     if (selectedUser?._id) {
-      getMessages(selectedUser._id)
+      getMessages(selectedUser._id);
     }
-    subscribeToMessages()
-    return () => unsubscribeFromMessages()
-  }, [selectedUser?._id, getMessages, subscribeToMessages, unsubscribeFromMessages])
+    subscribeToMessages();
+    return () => unsubscribeFromMessages();
+  }, [
+    selectedUser?._id,
+    getMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  ]);
 
   useEffect(() => {
     if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" })
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages])
+  }, [messages]);
 
   const formatChatDate = (timestamp) => {
-    const date = dayjs(timestamp)
-    if (date.isToday()) return "Today"
-    if (date.isYesterday()) return "Yesterday"
-    return date.format("DD/MM/YYYY")
-  }
+    const date = dayjs(timestamp);
+    if (date.isToday()) return "Today";
+    if (date.isYesterday()) return "Yesterday";
+    return date.format("DD/MM/YYYY");
+  };
 
-  let lastMessageDate = null
+  let lastMessageDate = null;
 
   const handleDeleteMessage = async (messageId) => {
     try {
-      await deleteMessage(messageId)
+      await deleteMessage(messageId);
     } catch (error) {
-      console.error("Failed to delete message:", error)
+      console.error("Failed to delete message:", error);
     }
-  }
+  };
 
   return (
     <div className="flex-1 flex flex-col overflow-auto bg-gradient-to-b from-base-100 to-base-200">
@@ -76,25 +81,31 @@ const ChatContainer = () => {
           <div className="h-full flex items-center justify-center">
             <div className="text-center p-4 sm:p-6 rounded-xl bg-base-100 shadow-sm border border-base-300 max-w-[90%]">
               <p className="text-gray-500">No messages yet</p>
-              <p className="text-sm text-gray-400 mt-1">Start the conversation!</p>
+              <p className="text-sm text-gray-400 mt-1">
+                Start the conversation!
+              </p>
             </div>
           </div>
         ) : (
           messages.map((message, index) => {
-            const messageDate = formatChatDate(message.createdAt)
-            const showDateLabel = messageDate !== lastMessageDate
-            lastMessageDate = messageDate
-            const isAuthUserMessage = message.senderId === authUser._id
+            const messageDate = formatChatDate(message.createdAt);
+            const showDateLabel = messageDate !== lastMessageDate;
+            lastMessageDate = messageDate;
+            const isAuthUserMessage = message.senderId === authUser._id;
 
             return (
               <div key={message._id || `msg-${index}`}>
                 {showDateLabel && (
                   <div className="flex items-center justify-center my-3">
-                    <div className="px-3 py-1 rounded-full bg-base-300 text-xs font-medium">{messageDate}</div>
+                    <div className="px-3 py-1 rounded-full bg-base-300 text-xs font-medium">
+                      {messageDate}
+                    </div>
                   </div>
                 )}
                 <div
-                  className={`chat ${isAuthUserMessage ? "chat-end" : "chat-start"}`}
+                  className={`chat ${
+                    isAuthUserMessage ? "chat-end" : "chat-start"
+                  }`}
                   ref={index === messages.length - 1 ? messageEndRef : null}
                 >
                   <div className="chat-image avatar">
@@ -119,27 +130,45 @@ const ChatContainer = () => {
                         <Trash size={14} />
                       </button>
                     )}
-                    <time className="text-xs opacity-50 ml-1">{dayjs(message.createdAt).format("hh:mm A")}</time>
+                    <time className="text-xs opacity-50 ml-1">
+                      {dayjs(message.createdAt).format("hh:mm A")}
+                    </time>
                   </div>
                   <div
-                    className={`chat-bubble flex flex-col rounded-[16px] shadow-sm max-w-[70vw] sm:max-w-md
-                      ${isAuthUserMessage ? "bg-primary text-primary-content" : "bg-base-100 border border-base-300"}`}
+                    className={`chat-bubble flex flex-col items-start gap-2 p-2 rounded-[16px] shadow-sm max-w-[70vw] sm:max-w-md
+    ${
+      isAuthUserMessage
+        ? "bg-primary text-primary-content"
+        : "bg-base-100 text-base-content border border-base-300"
+    }
+  `}
                   >
                     {message.image && (
-                      <div className="mb-2 rounded-md overflow-hidden">
+                      <div className="rounded-md overflow-hidden self-start">
                         <img
                           src={message.image || "/placeholder.svg"}
                           alt="Attachment"
-                          className="h-[200px] max-w-[130px] sm:h-auto sm:max-w-[200px] object-cover rounded-md mb-2 cursor-pointer"
+                          className="w-[130px] h-[200px] sm:w-[200px] sm:h-[250px] object-cover rounded-md cursor-pointer"
                           onClick={() => setSelectedImage(message.image)}
+                          style={{ objectFit: "cover" }}
                         />
                       </div>
                     )}
-                    {message.text && <p className="break-words">{message.text}</p>}
+                    {message.text && (
+                      <div
+                        className={`${
+                          message.image
+                            ? "mt-2 w-[130px] sm:w-[200px]"
+                            : "w-full max-w-[70vw] sm:max-w-md"
+                        }`}
+                      >
+                        <p className="break-words w-full">{message.text}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            )
+            );
           })
         )}
       </div>
@@ -164,7 +193,7 @@ const ChatContainer = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ChatContainer
+export default ChatContainer;

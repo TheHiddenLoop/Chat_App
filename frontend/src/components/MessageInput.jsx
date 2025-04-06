@@ -6,6 +6,7 @@ import { Send, X, Smile, Paperclip } from "lucide-react"
 import toast from "react-hot-toast"
 import data from "@emoji-mart/data"
 import Picker from "@emoji-mart/react"
+import { useMobile } from "./hooks/use-mobile"
 
 const MessageInput = () => {
   const [text, setText] = useState("")
@@ -16,13 +17,33 @@ const MessageInput = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const { sendMessage, selectedUser } = useChatStore()
   const [isSending, setIsSending] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const { isMobile: isMobileHook } = useMobile()
 
-  // Focus input when selected user changes
+  // Detect mobile devices
   useEffect(() => {
-    if (selectedUser && textInputRef.current) {
+    const checkIfMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera
+      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i
+      setIsMobile(mobileRegex.test(userAgent))
+    }
+
+    checkIfMobile()
+
+    // Also check on resize in case of orientation changes
+    window.addEventListener("resize", checkIfMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile)
+    }
+  }, [])
+
+  // Focus input when selected user changes, but only on desktop
+  useEffect(() => {
+    if (selectedUser && textInputRef.current && !isMobile) {
       textInputRef.current.focus()
     }
-  }, [selectedUser])
+  }, [selectedUser, isMobile])
 
   // Handle Image Upload
   const handleImageChange = (e) => {
@@ -67,8 +88,8 @@ const MessageInput = () => {
         image: imageToSend,
       })
 
-      // Focus back on input after sending
-      if (textInputRef.current) {
+      // Only focus back on input after sending if NOT on mobile
+      if (textInputRef.current && !isMobile) {
         textInputRef.current.focus()
       }
     } catch (error) {
@@ -82,7 +103,8 @@ const MessageInput = () => {
   // Handle Emoji Selection
   const addEmoji = (emoji) => {
     setText((prev) => prev + emoji.native)
-    if (textInputRef.current) {
+    // Only focus back on input after adding emoji if NOT on mobile
+    if (textInputRef.current && !isMobile) {
       textInputRef.current.focus()
     }
   }
