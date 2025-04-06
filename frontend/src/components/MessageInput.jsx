@@ -6,7 +6,7 @@ import { Send, X, Smile, Paperclip } from "lucide-react"
 import toast from "react-hot-toast"
 import data from "@emoji-mart/data"
 import Picker from "@emoji-mart/react"
-import { useMobile } from "./hooks/use-mobile"
+import { useMobile } from "./hooks/use-mobile.jsx"
 
 const MessageInput = () => {
   const [text, setText] = useState("")
@@ -17,26 +17,7 @@ const MessageInput = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const { sendMessage, selectedUser } = useChatStore()
   const [isSending, setIsSending] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const { isMobile: isMobileHook } = useMobile()
-
-  // Detect mobile devices
-  useEffect(() => {
-    const checkIfMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera
-      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i
-      setIsMobile(mobileRegex.test(userAgent))
-    }
-
-    checkIfMobile()
-
-    // Also check on resize in case of orientation changes
-    window.addEventListener("resize", checkIfMobile)
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile)
-    }
-  }, [])
+  const { isMobile } = useMobile()
 
   // Focus input when selected user changes, but only on desktop
   useEffect(() => {
