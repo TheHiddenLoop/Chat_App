@@ -17,16 +17,15 @@ const Navbar = () => {
         setMobileMenuOpen(false)
       }
     }
-  
+
     if (mobileMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside)
     } else {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  
+
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [mobileMenuOpen])
-  
 
   return (
     <header
@@ -69,7 +68,10 @@ const Navbar = () => {
           {/* Mobile Menu Button (only show if user is logged in) */}
           {authUser && (
             <div className="md:hidden">
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="btn btn-sm btn-circle">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="btn btn-sm btn-circle"
+              >
                 {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
