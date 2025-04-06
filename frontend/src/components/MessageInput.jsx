@@ -6,7 +6,6 @@ import { Send, X, Smile, Paperclip } from "lucide-react"
 import toast from "react-hot-toast"
 import data from "@emoji-mart/data"
 import Picker from "@emoji-mart/react"
-import { useMobile } from "./hooks/use-mobile.jsx"
 
 const MessageInput = () => {
   const [text, setText] = useState("")
@@ -17,14 +16,13 @@ const MessageInput = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const { sendMessage, selectedUser } = useChatStore()
   const [isSending, setIsSending] = useState(false)
-  const { isMobile } = useMobile()
 
-  // Focus input when selected user changes, but only on desktop
+  // Focus input when selected user changes
   useEffect(() => {
-    if (selectedUser && textInputRef.current && !isMobile) {
+    if (selectedUser && textInputRef.current) {
       textInputRef.current.focus()
     }
-  }, [selectedUser, isMobile])
+  }, [selectedUser])
 
   // Handle Image Upload
   const handleImageChange = (e) => {
@@ -69,8 +67,8 @@ const MessageInput = () => {
         image: imageToSend,
       })
 
-      // Only focus back on input after sending if NOT on mobile
-      if (textInputRef.current && !isMobile) {
+      // Focus back on input after sending
+      if (textInputRef.current) {
         textInputRef.current.focus()
       }
     } catch (error) {
@@ -84,8 +82,7 @@ const MessageInput = () => {
   // Handle Emoji Selection
   const addEmoji = (emoji) => {
     setText((prev) => prev + emoji.native)
-    // Only focus back on input after adding emoji if NOT on mobile
-    if (textInputRef.current && !isMobile) {
+    if (textInputRef.current) {
       textInputRef.current.focus()
     }
   }
