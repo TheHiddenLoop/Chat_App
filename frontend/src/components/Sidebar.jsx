@@ -39,7 +39,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`h-[calc(100vh-4rem)] w-full md:w-80 border-r flex flex-col transition-all duration-200 pt-0 ${
+      className={`h-full w-full md:w-80 border-r flex flex-col transition-all duration-200 ${
         theme === "dark" ? "bg-neutral border-neutral-focus" : "bg-base-100 border-base-300"
       }`}
     >
@@ -52,7 +52,8 @@ const Sidebar = () => {
               placeholder="Search contacts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 sm:pl-9 w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              className="  pl-10 sm:pl-9  w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+
             />
             {searchQuery ? (
               <button
@@ -66,6 +67,8 @@ const Sidebar = () => {
             )}
           </div>
         </div>
+
+        
       </div>
 
       <div className="overflow-y-auto w-full py-1 flex-1">

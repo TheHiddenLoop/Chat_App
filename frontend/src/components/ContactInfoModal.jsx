@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, BellOff, Ban, Trash } from "lucide-react"
+import { X, BellOff, Ban, Trash, AlertTriangle } from "lucide-react"
 import { useAuthStore } from "../store/useAuthStore"
 import { useChatStore } from "../store/useChatStore"
 import { useFriendStore } from "../store/useFriendStore"
@@ -42,7 +42,7 @@ const ContactInfoModal = ({ isOpen, onClose, user }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-base-100 rounded-lg w-full h-[calc(100vh-2rem)] sm:h-auto sm:max-w-md sm:mx-4 sm:max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
+      <div className="bg-base-100 rounded-lg w-full h-full sm:h-auto sm:max-w-md sm:mx-4 sm:max-h-[85vh] flex flex-col shadow-xl">
         {/* Header */}
         <div className="p-3 sm:p-4 flex items-center justify-between border-b border-base-300">
           <h2 className="font-medium text-lg">Contact Info</h2>
@@ -66,6 +66,7 @@ const ContactInfoModal = ({ isOpen, onClose, user }) => {
                   onError={(e) => (e.target.src = "/avatar.png")}
                 />
               </div>
+              
             </div>
             <h3 className="text-lg sm:text-xl font-semibold mt-3 sm:mt-4">{userName}</h3>
             <p className="text-base-content/70 flex items-center gap-1">
@@ -132,6 +133,7 @@ const ContactInfoModal = ({ isOpen, onClose, user }) => {
                 <Trash size={18} />
                 <span className="text-sm">Delete Friend</span>
               </button>
+
             </div>
           </div>
         </div>
