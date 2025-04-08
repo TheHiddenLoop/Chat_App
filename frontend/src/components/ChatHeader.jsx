@@ -1,3 +1,4 @@
+"use client"
 
 import { X, MoreVertical, Trash, Info } from "lucide-react"
 import { useState, useRef, useEffect, useCallback } from "react"
@@ -60,26 +61,19 @@ const ChatHeader = () => {
 
   return (
     <>
-      <div className="p-2 sm:p-3 border-b border-base-300 bg-base-100 relative shadow-sm">
+      <div className="p-2 sm:p-3 border-b border-base-300 bg-base-100 sticky top-16 z-30 shadow-sm">
         <div className="flex items-center justify-between">
           {/* Left: User Info */}
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="avatar cursor-pointer group" onClick={handleOpenContactInfo}>
               <div className="size-10 sm:size-11 rounded-full relative border-2 border-base-300 group-hover:border-primary transition-colors">
                 <img src={selectedUser.profilePic || "/avatar.png"} alt={userName} className="object-cover" />
-                
               </div>
             </div>
             <div>
               <h3 className="font-medium text-sm sm:text-base">{userName}</h3>
               <p className="text-xs sm:text-sm text-base-content/70">
-                {isOnline ? (
-                  <span className="flex items-center gap-1">
-                    Online
-                  </span>
-                ) : (
-                  "Offline"
-                )}
+                {isOnline ? <span className="flex items-center gap-1">Online</span> : "Offline"}
               </p>
             </div>
           </div>
@@ -131,4 +125,3 @@ const ChatHeader = () => {
 }
 
 export default ChatHeader
-

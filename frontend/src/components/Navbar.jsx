@@ -29,8 +29,8 @@ const Navbar = () => {
 
   return (
     <header
-      className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 
-    backdrop-blur-lg bg-base-100/80"
+      className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-50 
+backdrop-blur-lg bg-base-100/80"
     >
       <div className="container mx-auto px-4 h-16">
         <div className="flex items-center justify-between h-full">
@@ -68,10 +68,7 @@ const Navbar = () => {
           {/* Mobile Menu Button (only show if user is logged in) */}
           {authUser && (
             <div className="md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="btn btn-sm btn-circle"
-              >
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="btn btn-sm btn-circle">
                 {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
             </div>
