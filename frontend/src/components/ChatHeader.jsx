@@ -1,4 +1,3 @@
-"use client"
 
 import { X, MoreVertical, Trash, Info } from "lucide-react"
 import { useState, useRef, useEffect, useCallback } from "react"
@@ -54,26 +53,33 @@ const ChatHeader = () => {
   }, [clearChatMessages])
 
   // Open contact info modal
-  const handleOpenContactInfo = useCallback(() => {
+  const handleOpenContactInfo = () => {
     setContactInfoOpen(true)
     setMenuOpen(false)
-  }, [])
+  }
 
   return (
     <>
-      <div className="p-2 sm:p-3 border-b border-base-300 bg-base-100 sticky top-0 left-0 right-0 z-10 shadow-sm">
+      <div className="p-2 sm:p-3 border-b border-base-300 bg-base-100 relative shadow-sm">
         <div className="flex items-center justify-between">
           {/* Left: User Info */}
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="avatar cursor-pointer group" onClick={handleOpenContactInfo}>
               <div className="size-10 sm:size-11 rounded-full relative border-2 border-base-300 group-hover:border-primary transition-colors">
                 <img src={selectedUser.profilePic || "/avatar.png"} alt={userName} className="object-cover" />
+                
               </div>
             </div>
             <div>
               <h3 className="font-medium text-sm sm:text-base">{userName}</h3>
               <p className="text-xs sm:text-sm text-base-content/70">
-                {isOnline ? <span className="flex items-center gap-1">Online</span> : "Offline"}
+                {isOnline ? (
+                  <span className="flex items-center gap-1">
+                    Online
+                  </span>
+                ) : (
+                  "Offline"
+                )}
               </p>
             </div>
           </div>
@@ -88,7 +94,7 @@ const ChatHeader = () => {
                 <MoreVertical size={16} />
               </button>
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-base-100 shadow-lg rounded-md border border-base-300 z-20 animate-in slide-in-from-top-5 duration-200">
+                <div className="absolute right-0 mt-2 w-48 bg-base-100 shadow-lg rounded-md border border-base-300 z-10 animate-in slide-in-from-top-5 duration-200">
                   <button
                     onClick={handleOpenContactInfo}
                     className="w-full flex items-center gap-2 px-4 py-3 hover:bg-base-200 text-sm"
@@ -125,3 +131,4 @@ const ChatHeader = () => {
 }
 
 export default ChatHeader
+
