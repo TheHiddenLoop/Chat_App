@@ -105,7 +105,7 @@ const MessageInput = () => {
   }, [showEmojiPicker])
 
   return (
-    <div className="relative p-2 sm:p-4 w-full bg-base-100 border-t border-base-300">
+    <div className="sticky bottom-0 left-0 right-0 p-2 sm:p-4 w-full bg-base-100 border-t border-base-300 z-10">
       {/* Emoji Picker */}
       {showEmojiPicker && (
         <div
@@ -174,7 +174,9 @@ const MessageInput = () => {
         {/* Send Button */}
         <button
           type="submit"
-          className={`btn btn-circle btn-sm sm:btn-md ${(!text.trim() && !imagePreview) || isSending ? "btn-disabled" : "btn-primary text-primary-content"}`}
+          className={`btn btn-circle btn-sm sm:btn-md ${
+            (!text.trim() && !imagePreview) || isSending ? "btn-disabled" : "btn-primary text-primary-content"
+          }`}
           disabled={(!text.trim() && !imagePreview) || isSending}
         >
           <Send size={16} className="sm:size-18" />
@@ -185,4 +187,3 @@ const MessageInput = () => {
 }
 
 export default MessageInput
-

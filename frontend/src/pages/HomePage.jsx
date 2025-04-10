@@ -16,7 +16,9 @@ const HomePage = () => {
         className={`flex items-center justify-center ${isMobile && selectedUser ? "pt-0" : "pt-16"} px-0 sm:pt-20 sm:px-4`}
       >
         <div
-          className={`bg-base-100 rounded-none sm:rounded-lg shadow-cl w-full max-w-6xl ${isMobile && selectedUser ? "h-screen" : "h-[calc(100vh-4rem)]"} sm:h-[calc(100vh-8rem)]`}
+          className={`bg-base-100 rounded-none sm:rounded-lg shadow-cl w-full max-w-6xl ${
+            isMobile && selectedUser ? "h-screen overflow-hidden" : "h-[calc(100vh-4rem)]"
+          } sm:h-[calc(100vh-8rem)]`}
         >
           <div className="flex h-full rounded-none sm:rounded-lg overflow-hidden">
             {/* On mobile: Show sidebar if no chat is selected, otherwise show chat */}

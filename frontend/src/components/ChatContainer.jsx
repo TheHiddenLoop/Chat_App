@@ -66,7 +66,9 @@ const ChatContainer = () => {
 
   return (
     <div
-      className={`flex-1 flex flex-col overflow-auto bg-gradient-to-b from-base-100 to-base-200 ${isMobile ? "h-screen" : ""}`}
+      className={`flex-1 flex flex-col overflow-hidden bg-gradient-to-b from-base-100 to-base-200 ${
+        isMobile ? "h-screen" : ""
+      }`}
     >
       <ChatHeader />
 
