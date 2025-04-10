@@ -28,8 +28,8 @@ const ChatContainer = () => {
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(null);
   const chatContainerRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (selectedUser?._id) {
@@ -68,7 +68,10 @@ const ChatContainer = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto bg-gradient-to-b from-base-100 to-base-200">
+    <div
+      className="flex flex-col bg-gradient-to-b from-base-100 to-base-200"
+      style={{ minHeight: "100dvh" }}
+    >
       <ChatHeader />
 
       <div
@@ -135,13 +138,14 @@ const ChatContainer = () => {
                     </time>
                   </div>
                   <div
-                    className={`chat-bubble flex flex-col items-start gap-2 p-2 rounded-[16px] shadow-sm max-w-[70vw] sm:max-w-md
-    ${
-      isAuthUserMessage
-        ? "bg-primary text-primary-content"
-        : "bg-base-100 text-base-content border border-base-300"
-    }
-  `}
+                    className={`chat-bubble flex flex-col items-start gap-2 p-2 rounded-[16px] shadow-sm
+                      max-w-[85vw] sm:max-w-md
+                      ${
+                        isAuthUserMessage
+                          ? "bg-primary text-primary-content"
+                          : "bg-base-100 text-base-content border border-base-300"
+                      }
+                    `}
                   >
                     {message.image && (
                       <div className="rounded-md overflow-hidden self-start">
@@ -150,7 +154,6 @@ const ChatContainer = () => {
                           alt="Attachment"
                           className="w-[130px] h-[200px] sm:w-[200px] sm:h-[250px] object-cover rounded-md cursor-pointer"
                           onClick={() => setSelectedImage(message.image)}
-                          style={{ objectFit: "cover" }}
                         />
                       </div>
                     )}
@@ -159,7 +162,7 @@ const ChatContainer = () => {
                         className={`${
                           message.image
                             ? "mt-2 w-[130px] sm:w-[200px]"
-                            : "w-full max-w-[70vw] sm:max-w-md"
+                            : "w-full max-w-[85vw] sm:max-w-md"
                         }`}
                       >
                         <p className="break-words w-full">{message.text}</p>
