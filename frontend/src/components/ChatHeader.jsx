@@ -1,73 +1,82 @@
-import { X, MoreVertical, Trash, Info } from "lucide-react";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { useAuthStore } from "../store/useAuthStore";
-import { useChatStore } from "../store/useChatStore";
-import ContactInfoModal from "./ContactInfoModal";
+
+import { X, MoreVertical, Trash, Info } from "lucide-react"
+import { useState, useRef, useEffect, useCallback } from "react"
+import { useAuthStore } from "../store/useAuthStore"
+import { useChatStore } from "../store/useChatStore"
+import ContactInfoModal from "./ContactInfoModal"
 
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser, clearChatMessages } = useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { selectedUser, setSelectedUser, clearChatMessages } = useChatStore()
+  const { onlineUsers } = useAuthStore()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [contactInfoOpen, setContactInfoOpen] = useState(false)
+  const menuRef = useRef(null)
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [contactInfoOpen, setContactInfoOpen] = useState(false);
-  const menuRef = useRef(null);
+  // Close dropdown menu when clicking outside
+  const handleClickOutside = useRef((event) => {}) // Initialize with an empty function
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    handleClickOutside.current = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
+        setMenuOpen(false)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    const handleMouseDown = (event) => {
+      handleClickOutside.current(event)
+    }
 
-  if (!selectedUser) return null;
+    document.addEventListener("mousedown", handleMouseDown)
+    return () => document.removeEventListener("mousedown", handleMouseDown)
+  }, [menuOpen])
 
-  const isBot = selectedUser._id === "AI_BOT";
-  const userName = isBot ? "AI Chatbot" : selectedUser.fullName;
-  const isOnline =
-    isBot || onlineUsers.some((user) => user._id === selectedUser._id || user === selectedUser._id);
+  if (!selectedUser) return null
 
+  // Check if the selected user is the bot
+  const isBot = selectedUser._id === "AI_BOT"
+
+  // Ensure bot has a proper name
+  const userName = isBot ? "AI Chatbot" : selectedUser.fullName
+
+  // Check if user is online (Bot is always online)
+  const isOnline = isBot || onlineUsers.some((user) => user._id === selectedUser._id || user === selectedUser._id)
+
+  // Clear chat handler
   const handleClearChat = useCallback(async () => {
     try {
-      await clearChatMessages();
-      setMenuOpen(false);
+      await clearChatMessages()
+      setMenuOpen(false)
     } catch (error) {
-      console.error("Error clearing chat:", error);
-      alert("Could not clear chat. Please try again.");
+      console.error("Error clearing chat:", error)
+      alert("Could not clear chat. Please try again.")
     }
-  }, [clearChatMessages]);
+  }, [clearChatMessages])
 
+  // Open contact info modal
   const handleOpenContactInfo = () => {
-    setContactInfoOpen(true);
-    setMenuOpen(false);
-  };
+    setContactInfoOpen(true)
+    setMenuOpen(false)
+  }
 
   return (
     <>
       <div className="p-2 sm:p-3 border-b border-base-300 bg-base-100 relative shadow-sm">
         <div className="flex items-center justify-between">
-          {/* Left: Avatar + Info */}
+          {/* Left: User Info */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <div
-              className="avatar cursor-pointer group"
-              onClick={handleOpenContactInfo}
-            >
+            <div className="avatar cursor-pointer group" onClick={handleOpenContactInfo}>
               <div className="size-10 sm:size-11 rounded-full relative border-2 border-base-300 group-hover:border-primary transition-colors">
-                <img
-                  src={selectedUser.profilePic || "/avatar.png"}
-                  alt={userName}
-                  className="object-cover"
-                />
+                <img src={selectedUser.profilePic || "/avatar.png"} alt={userName} className="object-cover" />
+                
               </div>
             </div>
             <div>
               <h3 className="font-medium text-sm sm:text-base">{userName}</h3>
               <p className="text-xs sm:text-sm text-base-content/70">
                 {isOnline ? (
-                  <span className="flex items-center gap-1">Online</span>
+                  <span className="flex items-center gap-1">
+                    Online
+                  </span>
                 ) : (
                   "Offline"
                 )}
@@ -118,7 +127,8 @@ const ChatHeader = () => {
         user={{ ...selectedUser, isOnline }}
       />
     </>
-  );
-};
+  )
+}
 
-export default ChatHeader;
+export default ChatHeader
+
