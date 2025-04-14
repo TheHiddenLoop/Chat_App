@@ -139,12 +139,15 @@ export const useAuthStore = create((set, get) => ({
     try {
       const response = await axiosInstance.put("/auth/reset-password", { token, newPassword });
       toast.success("Password reset successful. You can now log in.");
+      return response.data; 
     } catch (error) {
       toast.error(error.response?.data?.message || "Password reset failed");
+      throw error; 
     } finally {
       set({ isResettingPassword: false });
     }
   },
+  
   
   
   connectSocket: () => {

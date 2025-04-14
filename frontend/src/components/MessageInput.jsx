@@ -142,7 +142,7 @@ const MessageInput = () => {
         <div className="flex-1 flex gap-1 sm:gap-2 items-center">
           <input
             type="text"
-            className="w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+            className="w-full input input-bordered h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
             placeholder={`Message ${selectedUser?.fullName || ""}...`}
             value={text}
             onChange={(e) => setText(e.target.value)}

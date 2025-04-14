@@ -25,7 +25,7 @@ const ResetPasswordPage = () => {
       setTimeout(() => navigate("/login"), 2000); // ✅ Only redirect, no extra toast
     } catch (error) {
       console.error("Password Reset Error:", error);
-      toast.error(error?.response?.data?.message || "Error resetting password");
+      
     }
   };
 

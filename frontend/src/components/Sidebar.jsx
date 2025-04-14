@@ -52,7 +52,7 @@ const Sidebar = () => {
               placeholder="Search contacts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="  pl-10 sm:pl-9  w-full input input-bordered rounded-full h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              className="  pl-10 sm:pl-9  w-full input input-bordered  sm:h-12 px-3 sm:px-4 text-sm sm:text-base focus:border-primary focus:ring-1 focus:ring-primary transition-all"
 
             />
             {searchQuery ? (
