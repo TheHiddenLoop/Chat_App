@@ -38,7 +38,6 @@ const ContactInfoModal = ({ isOpen, onClose, user }) => {
 
     try {
       await deleteFriend(user._id)
-      toast.success(`Removed ${userName} from your contacts`)
       onClose()
       setShowDeleteConfirm(false)
     } catch (error) {

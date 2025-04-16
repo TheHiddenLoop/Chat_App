@@ -80,7 +80,8 @@ const FriendPage = () => {
             onClick={() => setActiveTab("sendRequest")}
           >
             <UserPlus className="w-5 h-5" />
-            <span className="hidden md:inline">Send Request</span>
+            <span>Add Friends</span>
+
           </button>
           <button
             className={`p-2 rounded-md transition flex items-center space-x-2 ${
@@ -89,7 +90,7 @@ const FriendPage = () => {
             onClick={() => setActiveTab("requests")}
           >
             <Users className="w-5 h-5" />
-            <span className="hidden md:inline">Requests</span>
+            <span>Accept Request</span>
           </button>
         </div>
 
@@ -112,7 +113,6 @@ const FriendPage = () => {
           </div>
         )}
 
-        {/* Search Results */}
         {/* Search Results */}
 {activeTab === "sendRequest" && searchTerm.trim() !== "" && (filteredResults.length > 0 || searchResults.length > 0) && (
   <div className="overflow-y-auto max-h-96 p-2 space-y-2 rounded-md ">
