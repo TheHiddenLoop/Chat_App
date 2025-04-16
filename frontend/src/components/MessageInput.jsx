@@ -110,8 +110,8 @@ const MessageInput = () => {
       {showEmojiPicker && (
         <div
           ref={emojiPickerRef}
-          className="absolute bottom-20 left-0 right-0 mx-auto sm:left-5 sm:mx-0 z-50 shadow-xl rounded-lg max-w-[90vw] sm:max-w-md"
-          style={{ height: "250px", overflowY: "auto" }}
+          className="absolute bottom-20 left-0 right-0 mx-auto sm:left-5 sm:mx-0 z-50 shadow-xl rounded-lg max-w-[90vw] sm:max-w-md" 
+          style={{ height: "250px", overflowY: "auto" , scrollbarWidth:"none"}}
         >
           <Picker data={data} onEmojiSelect={addEmoji} previewPosition="none" skinTonePosition="none" />
         </div>
