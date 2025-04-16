@@ -126,7 +126,7 @@ export const searchUsers = async (req, res) => {
   }
 };
 
-
+import Message from "../models/message.model.js";
 export const deleteFriend = async (req, res) => {
   try {
     const { friendId } = req.params;
@@ -142,6 +142,13 @@ export const deleteFriend = async (req, res) => {
 
     await User.findByIdAndUpdate(userId, { $pull: { friends: friendId } });
     await User.findByIdAndUpdate(friendId, { $pull: { friends: userId } });
+
+    await Message.deleteMany({
+      $or: [
+        { senderId: userId, receiverId: friendId },
+        { senderId: friendId, receiverId: userId },
+      ],
+    });
 
     return res.status(200).json({ message: 'Friend removed successfully' });
   } catch (error) {

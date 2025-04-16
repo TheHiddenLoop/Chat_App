@@ -162,16 +162,17 @@ const ContactInfoModal = ({ isOpen, onClose, user }) => {
                       {showDeleteConfirm ? "Confirm removal?" : "Remove from contacts"}
                     </span>
                     {showDeleteConfirm && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setShowDeleteConfirm(false)
-                        }}
-                        className="ml-auto text-xs text-base-content/70 hover:text-base-content"
-                      >
-                        Cancel
-                      </button>
-                    )}
+  <span
+    onClick={(e) => {
+      e.stopPropagation()
+      setShowDeleteConfirm(false)
+    }}
+    className="ml-auto text-xs text-base-content/70 hover:text-base-content cursor-pointer"
+  >
+    Cancel
+  </span>
+)}
+
                   </button>
                 </div>
               </>
