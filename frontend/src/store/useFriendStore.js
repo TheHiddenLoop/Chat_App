@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 
-const socket = io(import.meta.env.MODE === "development" ? "http://localhost:5001" : "https://chat-app-pi-one-58.vercel.app", { withCredentials: true });
+const socket = io(import.meta.env.MODE === "development" ? "http://localhost:5001" : "", { withCredentials: true });
 
 export const useFriendStore = create((set, get) => ({
   searchResults: [],
