@@ -34,7 +34,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/bot", botRoutes);  
 app.use("/api/friends", friendRoutes);
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'online', provider: 'Groq', models: GROQ_MODELS })
+  res.json({ status: 'online', message: "Server is Online" })
 })
 
 if (process.env.NODE_ENV === "production") {
